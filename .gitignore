@@ -8,9 +8,4 @@ obj
 *.db
 wwwroot
 publish
-obj/BookController.csproj.nuget.dgspec.json
-obj/BookController.csproj.nuget.g.props
-obj/Debug/netcoreapp3.1/BookController.assets.cache
-obj/Debug/netcoreapp3.1/BookController.csprojAssemblyReference.cache
-obj/project.assets.json
-obj/project.nuget.cache
+
