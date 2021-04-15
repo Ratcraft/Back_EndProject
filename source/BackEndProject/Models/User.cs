@@ -5,7 +5,7 @@ namespace Models
     public class User
     {
         [Key]
-        private int id {get; set; }
+        public int id {get; set; }
         public string firstName {get; set; }
         public string lastName {get; set; }
         public string birthDate {get; set; }

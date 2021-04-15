@@ -5,7 +5,7 @@ namespace Models
     public class Boss
     {
         [Key]
-        private int id {get; set; }
+        public int id {get; set; }
         public string firstName {get; set; }
         public string lastName {get; set; }
         public string birthDate {get; set; }
@@ -15,9 +15,7 @@ namespace Models
         public string password {get; set; }
         private int levelAccess {get; set; }
         public string domain { get; set; }
-
         public string Company {get; set;}
-
         public string Job {get; set;}
     }
 }

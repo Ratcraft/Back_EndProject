@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BackEndProject;
 
-namespace BackEndProject.Controllers
+namespace Controllers
 {
     [ApiController]
     [Route("[controller]")]
