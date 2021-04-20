@@ -1,5 +1,5 @@
-using Models;
 using Microsoft.EntityFrameworkCore;
+using Models;
 
 namespace Data
 {
@@ -7,5 +7,7 @@ namespace Data
     {
         public Context(DbContextOptions<Context> options) : base(options) {}
         public DbSet<User> User {get;set;}
+        public DbSet<Boss> Boss {get;set;}
+        public DbSet<Joboffer> Joboffer {get;set;}
     }
 }
