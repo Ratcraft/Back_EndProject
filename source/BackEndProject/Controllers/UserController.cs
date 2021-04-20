@@ -35,5 +35,6 @@ namespace BackEndProject.Controllers
 
             return CreatedAtAction("PostUser", new {id = b}, user);
         }
+
     }
 }

@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Models;
 
 namespace Models
 {
@@ -12,5 +14,7 @@ namespace Models
         public string duration { get; set; }
         public DateTime dateCreated { get; set; }
         public string bossusername { get; set; }
+        public List<int> applying_people { get; set; }
+        public List<int> working_people { get; set; }
     }
 }
