@@ -7,6 +7,6 @@ namespace Models
     {
         public string Company {get; set;}
         public string Job {get; set;}
-        public List<int> offers { get; set; }
+        //public List<int> offers { get; set; }
     }
 }

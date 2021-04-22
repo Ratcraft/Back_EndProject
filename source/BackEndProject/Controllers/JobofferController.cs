@@ -33,7 +33,7 @@ namespace BackEndProject.Controllers
             foreach (var people in _context.Joboffer){b++;}
 
             var boss = await _context.Boss.SingleOrDefaultAsync(x => x.userName == job.bossusername);
-            boss.offers.Add(job.id);
+            //boss.offers.Add(job.id);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("PostJoboffer", new {id = b}, job);
@@ -46,7 +46,7 @@ namespace BackEndProject.Controllers
             if(job == null){return NotFound();}
 
             var boss = await _context.Boss.SingleOrDefaultAsync(x => x.userName == job.bossusername);
-            boss.offers.Remove(job.id);
+            //boss.offers.Remove(job.id);
 
             _context.Joboffer.Remove(job);
             await _context.SaveChangesAsync();
@@ -74,7 +74,7 @@ namespace BackEndProject.Controllers
         {
             var job = await _context.Joboffer.FirstOrDefaultAsync(x => x.id == job_id);
             if(job == null){return NotFound();}
-            job.applying_people.Add(user_id);
+            //job.applying_people.Add(user_id);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -86,8 +86,8 @@ namespace BackEndProject.Controllers
             var job = await _context.Joboffer.FirstOrDefaultAsync(x => x.id == job_id);
             if(job == null){return NotFound();}
 
-            job.applying_people.Remove(user_id);
-            job.working_people.Add(user_id);
+            //job.applying_people.Remove(user_id);
+            //job.working_people.Add(user_id);
 
             await _context.SaveChangesAsync();
 

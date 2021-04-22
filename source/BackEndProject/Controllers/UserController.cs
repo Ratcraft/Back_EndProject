@@ -24,7 +24,7 @@ namespace BackEndProject.Controllers
             return await _context.User.ToListAsync();
         }
 
-        [HttpPost]
+        [HttpPost("create_account")]
         public async Task<ActionResult<User>> PostUsers(User user)
         {
             _context.User.Add(user);
@@ -36,5 +36,19 @@ namespace BackEndProject.Controllers
             return CreatedAtAction("PostUser", new {id = b}, user);
         }
 
+        [HttpPut("modify")]
+        public async Task<IActionResult> Modify_User(int id, User profile)
+        {
+            if(id != profile.id){return BadRequest();}
+            _context.Entry(profile).State = EntityState.Modified;
+            try{await _context.SaveChangesAsync();}
+            catch(DbUpdateConcurrencyException)
+            {
+                if(_context.User.FirstOrDefaultAsync(x => x.id == id) == null){return NotFound();}
+                else{throw;}
+            }
+
+            return NoContent();
+        }
     }
 }
