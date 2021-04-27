@@ -13,7 +13,8 @@ namespace Models
         public string userName {get; set; }
         public string emailAdress {get; set; }
         public string password {get; set; }
-        private int levelAccess {get; set; }
+        public string passwordHash { get; set; }
+        public int levelAccess {get; set; }
         public string domain { get; set; }
     }
 }
