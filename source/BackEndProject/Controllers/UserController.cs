@@ -2,9 +2,12 @@ using Data;
 using Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using AutoMapper;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System;
+using DTO;
+using System.Linq;
 
 namespace BackEndProject.Controllers
 {
@@ -12,16 +15,20 @@ namespace BackEndProject.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly Context _context;
-        public UserController(Context context)
+        public UserController(Context context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
+        public IActionResult GetUser()
         {
-            return await _context.User.ToListAsync();
+            var user = _context.User.ToList();
+            var model = _mapper.Map<IList<UserViewModel>>(user);
+            return Ok(model);
         }
 
         [HttpPost("create_account")]
