@@ -169,7 +169,7 @@ namespace Service
         {
             if(string.IsNullOrEmpty(username))
             {
-                throw new AppException("Valid Username is requred");
+                throw new AppException("Valid Username is required");
             }
             else
             {
@@ -181,7 +181,7 @@ namespace Service
                     //user.LastModified = DateTime.UtcNow;
                     _context.SaveChanges();
                     
-                    var emailAddress = new List<string>(){username};
+                    var emailAddress = new List<string>(){user.emailAdress};
                     var emailSubject = "Password Recovery";
                     var messageBody = password;
 
