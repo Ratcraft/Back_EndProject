@@ -12,10 +12,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models;
-using Services;
 using Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Service;
 
 namespace Controllers
 {
@@ -89,7 +89,7 @@ namespace Controllers
             try
             {
                 // create user
-                _userService.Create(user, model.Password);
+                _userService.Create(user, model.password);
                 return Ok();
             }
             catch (AppException ex)
@@ -132,6 +132,35 @@ namespace Controllers
             }
 
             return NoContent();
+        }
+
+        [AllowAnonymous]
+        [HttpPost("forgotpassword")]
+        public IActionResult ForgotPassword(ForgotPassword model)
+        {
+            return Ok(_userService.ForgotPassword(model.Username));
+        }
+
+        [Authorize(Roles = AccessLevel.Admin)]
+        [HttpPost("email")]
+        public async Task<IActionResult> SendEmail(SendEmailDTO model)
+        {
+            var emails = new List<string>();
+            foreach (var item in model.emails)
+            {
+                emails.Add(item);
+            }
+
+            var response = await _emailService.SendEmailAsync(emails, model.Subject, model.Message);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
+            {
+                return Ok("Email sent " + response.StatusCode);
+            }
+            else
+            {
+                return BadRequest("Email sending failed " + response.StatusCode);
+            }
         }
     }
 }
