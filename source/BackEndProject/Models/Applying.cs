@@ -17,6 +17,9 @@ namespace Models
         [Required]
         public int idJobOffer { get; set; }
 
+        [Required]
+        public DateTime applyingDate { get; set; }
+
         public bool hired { get; set; }
     }
 }
