@@ -19,7 +19,7 @@ using Service;
 
 namespace Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -141,7 +141,7 @@ namespace Controllers
             return Ok(_userService.ForgotPassword(model.Username));
         }
 
-        [Authorize(Roles = AccessLevel.Admin)]
+        //[Authorize(Roles = AccessLevel.Admin)]
         [HttpPost("email")]
         public async Task<IActionResult> SendEmail(SendEmailDTO model)
         {
