@@ -26,6 +26,51 @@ namespace BackEndProject.Controllers
             return await _context.Applying.ToListAsync();
         }
 
+        [HttpGet("get/{id}")]
+        public async Task<ActionResult<IEnumerable<Applying>>> GetApplying_byId(int id)
+        {
+            var applying = await _context.Applying.ToListAsync<Applying>();
+
+            var applying_by_id = applying.Find(x => x.id == id);
+
+            if (applying_by_id == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(applying_by_id);
+        }
+
+        [HttpGet("get/idApplicant/{idApplicant}")]
+        public async Task<ActionResult<IEnumerable<Applying>>> GetApplying_byIdApplicant(int idApplicant)
+        {
+            var applying = await _context.Applying.ToListAsync<Applying>();//.Where(x => x.idApplicant == idApplicant);
+
+            var applying_by_id = applying.Where(x => x.idApplicant == idApplicant);
+
+            if (applying_by_id == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(applying_by_id);
+        }
+
+        [HttpGet("get/idJobOffer/{idJobOffer}")]
+        public async Task<ActionResult<IEnumerable<Applying>>> GetApplying_byIdBobOffer(int idJobOffer)
+        {
+            var applying = await _context.Applying.ToListAsync<Applying>();
+
+            var applying_by_id = applying.Where(x => x.idApplicant == idJobOffer);
+
+            if (applying_by_id == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(applying_by_id);
+        }
+
         [HttpPost("create")]
         public async Task<ActionResult<Applying>> PostApplying(Applying applying)
         {
