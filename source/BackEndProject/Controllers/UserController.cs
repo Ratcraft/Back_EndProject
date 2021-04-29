@@ -107,18 +107,6 @@ namespace Controllers
             return Ok(model);
         }
 
-        [HttpPost("create_account")]
-        public async Task<ActionResult<User>> PostUsers(User user)
-        {
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
-
-            int b = 0;
-            foreach (var people in _context.User){b++;}
-
-            return CreatedAtAction("PostUser", new {id = b}, user);
-        }
-
         [HttpPut("modify")]
         public async Task<IActionResult> Modify_User(int id, User profile)
         {
