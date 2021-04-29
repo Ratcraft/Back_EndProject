@@ -4,22 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models
+namespace BackEndProject.DTO
 {
-    public class Applying
+    public class JobApplying
     {
-        [Key]
-        public int id { get; set; }
-
         [Required]
         public int idApplicant { get; set; }
 
         [Required]
         public int idJobOffer { get; set; }
-
-        [Required]
-        public DateTime applyingDate { get; set; }
-
-        public bool hired { get; set; }
     }
 }

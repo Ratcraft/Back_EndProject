@@ -7,7 +7,7 @@ using Helpers;
 using Models;
 using Data;
 
-namespace Services
+namespace Service
 {
     public interface IUserService
     {
@@ -47,7 +47,7 @@ namespace Services
             }
 
             // Granting access if the hashed password in the database matches with the password(hashed in computeHash method) entered by user.
-            if(computeHash(password) != user.passwordHash)
+            if(computeHash(password) != user.password)
             {
                 return null;
             }
@@ -78,10 +78,10 @@ namespace Services
             }
 
             //Saving hashed password into Database table
-            user.passwordHash = computeHash(password);  
+            user.password = computeHash(password);
             user.levelAccess = null;
-            //user.Created = DateTime.UtcNow;
-            //user.LastModified = DateTime.UtcNow;
+            user.created = DateTime.UtcNow;
+            user.lastModified = DateTime.UtcNow;
 
             _context.User.Add(user);
             _context.SaveChanges();
@@ -124,7 +124,7 @@ namespace Services
             }
             if (!string.IsNullOrWhiteSpace(currentPassword))
             {   
-                if(computeHash(currentPassword) != user.passwordHash)
+                if(computeHash(currentPassword) != user.password)
                 {
                     throw new AppException("Invalid Current password!");
                 }
@@ -135,7 +135,7 @@ namespace Services
                 }
     
                 //Updating hashed password into Database table
-                user.passwordHash = computeHash(password);
+                user.password = computeHash(password);
                 //user.LastModified = DateTime.UtcNow; 
             }
             
@@ -177,7 +177,7 @@ namespace Services
                 if(user != null)
                 {
                     string password = GenerateRandomCryptographicKey(5);
-                    user.passwordHash = computeHash(password);
+                    user.password = computeHash(password);
                     //user.LastModified = DateTime.UtcNow;
                     _context.SaveChanges();
                     
