@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace Services
+namespace Service
 {
     public interface IEmailService
     {
