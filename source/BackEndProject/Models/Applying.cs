@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace BackEndProject.Models
+namespace Models
 {
     public class Applying
     {
@@ -16,5 +16,7 @@ namespace BackEndProject.Models
 
         [Required]
         public int idJobOffer { get; set; }
+
+        public bool hired { get; set; }
     }
 }
