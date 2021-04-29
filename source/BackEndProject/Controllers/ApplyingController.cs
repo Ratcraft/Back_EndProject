@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using DTO;
 
 namespace BackEndProject.Controllers
 {
@@ -72,17 +73,37 @@ namespace BackEndProject.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<Applying>> PostApplying(Applying applying)
+        public async Task<ActionResult<Applying>> PostApplying(ApplyingDTO applying_dto)
         {
+            var job_offer = await _context.Joboffer.ToListAsync();
+            if (job_offer.Find(j => j.id == applying_dto.idJobOffer) == null)
+                return BadRequest("Job Offer does not exist!");
+
+            var user = await _context.User.ToListAsync();
+            if (user.Find(u => u.id == applying_dto.idApplicant) == null)
+                return BadRequest("User does not exist!");
+
+            var app = await _context.Applying.ToListAsync();
+            if (app.Find(a => a.id == applying_dto.id) != null)
+                return BadRequest("Applying ID already used!");
+
+            Applying applying = new Applying
+            {
+                id = applying_dto.id,
+                idApplicant = applying_dto.idApplicant,
+                idJobOffer = applying_dto.idJobOffer,
+                applyingDate = DateTime.Now,
+                hired = false
+                
+            };
+
             _context.Applying.Add(applying);
             await _context.SaveChangesAsync();
 
-            int b = 0;
-            foreach (var app in _context.Applying) { b++; }
-
-            return CreatedAtAction("PostApplying", new { id = b }, applying);
+            return CreatedAtAction("PostApplying", applying.id, applying);
         }
 
+        /* modify
         [HttpPut("modify")]
         public async Task<IActionResult> ModifyApplying(int id, Applying applying)
         {
@@ -97,10 +118,35 @@ namespace BackEndProject.Controllers
 
             return NoContent();
         }
-
-        [HttpDelete("delete")]
-        public async Task<ActionResult<Applying>> DeleteApplying (Applying applying)
+        */
+        
+        [HttpPut("hired")]
+        public async Task<IActionResult> SetHiredApplying(int idBoss, int idApplying, bool hired)
         {
+            var applyings = await _context.Applying.ToListAsync();
+            Applying applying = applyings.Find(a => a.id == idApplying);
+
+            if (applying == null)
+                return BadRequest("Applying does not exist! (id incorrect : idApplying)");
+
+            var bosses = await _context.Boss.ToListAsync();
+            if (bosses.Find(b => b.id == idBoss) == null)
+                return BadRequest("Boss does not exist! (id incorrect : idBoss)");
+
+            _context.Entry(applying).State = EntityState.Modified;
+
+            return CreatedAtAction("PutApplying", idApplying, $"set hired on \"{hired}\"");
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult<Applying>> DeleteApplying (int id)
+        {
+            var applyings = await _context.Applying.ToListAsync();
+            Applying applying = applyings.Find(a => a.id == id);
+
+            if (applying == null)
+                return BadRequest("Applying does not exist! (id incorrect)");
+
             _context.Applying.Remove(applying);
             await _context.SaveChangesAsync();
 
