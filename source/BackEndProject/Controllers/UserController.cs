@@ -60,7 +60,7 @@ namespace Controllers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.id.ToString()),
-                    new Claim(ClaimTypes.Role, user.levelAccess.ToString())
+                    new Claim(ClaimTypes.Role, user.levelAccess ?? "null")
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -89,7 +89,7 @@ namespace Controllers
             try
             {
                 // create user
-                _userService.Create(user, model.Password);
+                _userService.Create(user, model.password);
                 return Ok();
             }
             catch (AppException ex)

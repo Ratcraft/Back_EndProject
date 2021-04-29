@@ -14,7 +14,7 @@ namespace Models
         public string emailAdress {get; set; }
         public string password {get; set; }
         public string passwordHash { get; set; }
-        public int levelAccess {get; set; }
+        public string levelAccess {get; set; }
         public string domain { get; set; }
     }
 }

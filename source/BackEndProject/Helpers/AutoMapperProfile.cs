@@ -9,6 +9,7 @@ namespace Helpers
         public AutoMapperProfile()
         {
             CreateMap<User,UserViewModel>();
+            CreateMap<CreateUser,User>();
         }
     }
 }

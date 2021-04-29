@@ -79,7 +79,7 @@ namespace Services
 
             //Saving hashed password into Database table
             user.passwordHash = computeHash(password);  
-            user.levelAccess = 0;
+            user.levelAccess = null;
             //user.Created = DateTime.UtcNow;
             //user.LastModified = DateTime.UtcNow;
 
