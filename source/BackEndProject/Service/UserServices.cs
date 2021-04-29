@@ -169,7 +169,7 @@ namespace Service
         {
             if(string.IsNullOrEmpty(username))
             {
-                throw new AppException("Valid Username is requred");
+                throw new AppException("Valid Username is required");
             }
             else
             {
