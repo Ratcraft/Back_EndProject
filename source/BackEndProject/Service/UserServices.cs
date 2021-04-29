@@ -181,7 +181,7 @@ namespace Service
                     //user.LastModified = DateTime.UtcNow;
                     _context.SaveChanges();
                     
-                    var emailAddress = new List<string>(){username};
+                    var emailAddress = new List<string>(){user.emailAdress};
                     var emailSubject = "Password Recovery";
                     var messageBody = password;
 
