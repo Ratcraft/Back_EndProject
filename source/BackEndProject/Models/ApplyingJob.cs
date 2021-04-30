@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
-    public class Applying
+    public class ApplyingJob
     {
         [Key]
         public int id { get; set; }

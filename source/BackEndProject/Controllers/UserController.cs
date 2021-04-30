@@ -129,7 +129,7 @@ namespace Controllers
             return Ok(_userService.ForgotPassword(model.Username));
         }
 
-        //[Authorize(Roles = AccessLevel.Admin)]
+        [Authorize(Roles = AccessLevel.Admin)]
         [HttpPost("email")]
         public async Task<IActionResult> SendEmail(SendEmailDTO model)
         {

@@ -8,9 +8,6 @@ namespace DTO
 {
     public class ApplyingDTO
     {
-        [Key]
-        public int id { get; set; }
-
         [Required]
         public int idApplicant { get; set; }
 

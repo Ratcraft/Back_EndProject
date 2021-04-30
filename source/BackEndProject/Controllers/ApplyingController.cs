@@ -8,9 +8,11 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEndProject.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class ApplyingController : ControllerBase
@@ -21,16 +23,18 @@ namespace BackEndProject.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet("get")]
-        public async Task<ActionResult<IEnumerable<Applying>>> GetApplying()
+        public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying()
         {
-            return await _context.Applying.ToListAsync();
+            return await _context.ApplyingJob.ToListAsync();
         }
 
+        [AllowAnonymous]
         [HttpGet("get/{id}")]
-        public async Task<ActionResult<IEnumerable<Applying>>> GetApplying_byId(int id)
+        public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying_byId(int id)
         {
-            var applying = await _context.Applying.ToListAsync<Applying>();
+            var applying = await _context.ApplyingJob.ToListAsync<ApplyingJob>();
 
             var applying_by_id = applying.Find(x => x.id == id);
 
@@ -42,10 +46,11 @@ namespace BackEndProject.Controllers
             return Ok(applying_by_id);
         }
 
+        [AllowAnonymous]
         [HttpGet("get/idApplicant/{idApplicant}")]
-        public async Task<ActionResult<IEnumerable<Applying>>> GetApplying_byIdApplicant(int idApplicant)
+        public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying_byIdApplicant(int idApplicant)
         {
-            var applying = await _context.Applying.ToListAsync<Applying>();//.Where(x => x.idApplicant == idApplicant);
+            var applying = await _context.ApplyingJob.ToListAsync<ApplyingJob>();//.Where(x => x.idApplicant == idApplicant);
 
             var applying_by_id = applying.Where(x => x.idApplicant == idApplicant);
 
@@ -57,10 +62,11 @@ namespace BackEndProject.Controllers
             return Ok(applying_by_id);
         }
 
+        [AllowAnonymous]
         [HttpGet("get/idJobOffer/{idJobOffer}")]
-        public async Task<ActionResult<IEnumerable<Applying>>> GetApplying_byIdBobOffer(int idJobOffer)
+        public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying_byIdBobOffer(int idJobOffer)
         {
-            var applying = await _context.Applying.ToListAsync<Applying>();
+            var applying = await _context.ApplyingJob.ToListAsync<ApplyingJob>();
 
             var applying_by_id = applying.Where(x => x.idApplicant == idJobOffer);
 
@@ -72,8 +78,9 @@ namespace BackEndProject.Controllers
             return Ok(applying_by_id);
         }
 
+        [Authorize(Roles = AccessLevel.Boss)]
         [HttpPost("create")]
-        public async Task<ActionResult<Applying>> PostApplying(ApplyingDTO applying_dto)
+        public async Task<ActionResult<ApplyingJob>> PostApplying(ApplyingDTO applying_dto)
         {
             var job_offer = await _context.Joboffer.ToListAsync();
             if (job_offer.Find(j => j.id == applying_dto.idJobOffer) == null)
@@ -83,21 +90,17 @@ namespace BackEndProject.Controllers
             if (user.Find(u => u.id == applying_dto.idApplicant) == null)
                 return BadRequest("User does not exist!");
 
-            var app = await _context.Applying.ToListAsync();
-            if (app.Find(a => a.id == applying_dto.id) != null)
-                return BadRequest("Applying ID already used!");
+            var app = await _context.ApplyingJob.ToListAsync();
 
-            Applying applying = new Applying
+            ApplyingJob applying = new ApplyingJob
             {
-                id = applying_dto.id,
                 idApplicant = applying_dto.idApplicant,
                 idJobOffer = applying_dto.idJobOffer,
                 applyingDate = DateTime.Now,
                 hired = false
-                
             };
 
-            _context.Applying.Add(applying);
+            _context.ApplyingJob.Add(applying);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("PostApplying", applying.id, applying);
@@ -123,8 +126,8 @@ namespace BackEndProject.Controllers
         [HttpPut("hired")]
         public async Task<IActionResult> SetHiredApplying(int idBoss, int idApplying, bool hired)
         {
-            var applyings = await _context.Applying.ToListAsync();
-            Applying applying = applyings.Find(a => a.id == idApplying);
+            var applyings = await _context.ApplyingJob.ToListAsync();
+            ApplyingJob applying = applyings.Find(a => a.id == idApplying);
 
             if (applying == null)
                 return BadRequest("Applying does not exist! (id incorrect : idApplying)");
@@ -139,15 +142,15 @@ namespace BackEndProject.Controllers
         }
 
         [HttpDelete("delete/{id}")]
-        public async Task<ActionResult<Applying>> DeleteApplying (int id)
+        public async Task<ActionResult<ApplyingJob>> DeleteApplying (int id)
         {
-            var applyings = await _context.Applying.ToListAsync();
-            Applying applying = applyings.Find(a => a.id == id);
+            var applyings = await _context.ApplyingJob.ToListAsync();
+            ApplyingJob applying = applyings.Find(a => a.id == id);
 
             if (applying == null)
                 return BadRequest("Applying does not exist! (id incorrect)");
 
-            _context.Applying.Remove(applying);
+            _context.ApplyingJob.Remove(applying);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("DeleteApplying", applying);

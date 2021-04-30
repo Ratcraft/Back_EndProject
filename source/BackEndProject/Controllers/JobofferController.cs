@@ -69,31 +69,5 @@ namespace BackEndProject.Controllers
             return NoContent();
         }
 
-        [HttpPut("apply")]
-        public async Task<IActionResult> Apply_Offer(int user_id, int job_id)
-        {
-            var job = await _context.Joboffer.FirstOrDefaultAsync(x => x.id == job_id);
-            if(job == null){return NotFound();}
-            //job.applying_people.Add(user_id);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        [HttpPut("accept_user")]
-        public async Task<IActionResult> Accept_user(int job_id, int user_id)
-        {
-            var job = await _context.Joboffer.FirstOrDefaultAsync(x => x.id == job_id);
-            if(job == null){return NotFound();}
-
-            //job.applying_people.Remove(user_id);
-            //job.working_people.Add(user_id);
-
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-
     }
 }
