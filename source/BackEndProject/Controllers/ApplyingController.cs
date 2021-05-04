@@ -10,7 +10,7 @@ using Models;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
 
-namespace BackEndProject.Controllers
+namespace Controllers
 {
     [Authorize]
     [Route("[controller]")]
