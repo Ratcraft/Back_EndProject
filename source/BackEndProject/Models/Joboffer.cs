@@ -13,7 +13,7 @@ namespace Models
         public string description { get; set; }
         public string duration { get; set; }
         public DateTime dateCreated { get; set; }
-        public string bossusername { get; set; }
+        public string bossUsername { get; set; }
         public DateTime deadline { get; set; }
 
         //public List<int> applying_people { get; set; }

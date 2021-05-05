@@ -32,7 +32,7 @@ namespace Controllers
             int b = 0;
             foreach (var people in _context.Joboffer){b++;}
 
-            var boss = await _context.Boss.SingleOrDefaultAsync(x => x.userName == job.bossusername);
+            var boss = await _context.Boss.SingleOrDefaultAsync(x => x.userName == job.bossUsername);
             //boss.offers.Add(job.id);
             await _context.SaveChangesAsync();
 
@@ -45,7 +45,7 @@ namespace Controllers
             var job = await _context.Joboffer.SingleOrDefaultAsync(x => x.name == name);
             if(job == null){return NotFound();}
 
-            var boss = await _context.Boss.SingleOrDefaultAsync(x => x.userName == job.bossusername);
+            var boss = await _context.Boss.SingleOrDefaultAsync(x => x.userName == job.bossUsername);
             //boss.offers.Remove(job.id);
 
             _context.Joboffer.Remove(job);
