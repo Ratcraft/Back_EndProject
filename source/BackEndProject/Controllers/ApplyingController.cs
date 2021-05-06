@@ -32,7 +32,7 @@ namespace Controllers
 
         [AllowAnonymous]
         [HttpGet("get/{id}")]
-        public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying_byId(int id)
+        public async Task<ActionResult<ApplyingJob>> GetApplying_byId(int id)
         {
             var applying = await _context.ApplyingJob.ToListAsync<ApplyingJob>();
 
@@ -64,7 +64,7 @@ namespace Controllers
 
         [AllowAnonymous]
         [HttpGet("get/idJobOffer/{idJobOffer}")]
-        public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying_byIdBobOffer(int idJobOffer)
+        public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying_byIdJobOffer(int idJobOffer)
         {
             var applying = await _context.ApplyingJob.ToListAsync<ApplyingJob>();
 
