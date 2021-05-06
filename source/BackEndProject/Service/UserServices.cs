@@ -6,6 +6,7 @@ using System.Text;
 using Helpers;
 using Models;
 using Data;
+using DTO;
 
 namespace Service
 {
@@ -14,7 +15,8 @@ namespace Service
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
         User GetById(int id);
-        User Create(User user, string password);
+        User CreateUser(User user, string password);
+        Boss CreateEmployer(Boss user, string password);
         void Update(User user, string currentPassword, string password, string confirmPassword);
         string ForgotPassword(string username);
         void Delete(int id);
@@ -64,7 +66,7 @@ namespace Service
             return _context.User.Find(id);
         }
 
-        public User Create(User user, string password)
+        public User CreateUser(User user, string password)
         {
             // validation
             if (string.IsNullOrWhiteSpace(password))
@@ -79,7 +81,32 @@ namespace Service
 
             //Saving hashed password into Database table
             user.password = computeHash(password);
-            user.levelAccess = null;
+            user.levelAccess = AccessLevel.User;
+            user.created = DateTime.UtcNow;
+            user.lastModified = DateTime.UtcNow;
+
+            _context.User.Add(user);
+            _context.SaveChanges();
+
+            return user;
+        }
+
+        public Boss CreateEmployer(Boss user, string password)
+        {
+            // validation
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new AppException("Password is required");
+            }
+
+            if (_context.User.Any(x => x.userName == user.userName))
+            {
+                throw new AppException("Username \"" + user.userName + "\" is already taken");
+            }
+
+            //Saving hashed password into Database table
+            user.password = computeHash(password);
+            user.levelAccess = AccessLevel.Boss;
             user.created = DateTime.UtcNow;
             user.lastModified = DateTime.UtcNow;
 
@@ -215,5 +242,6 @@ namespace Service
             }
             return UPPERCASE_CHARACTERS[randomUppercasChars] + hashstring + SPECIAL_CHARACTERS[randomSpecialCharNumber];
         }
+
     }
 }

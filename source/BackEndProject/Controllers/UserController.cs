@@ -89,7 +89,7 @@ namespace Controllers
             try
             {
                 // create user
-                _userService.Create(user, model.password);
+                _userService.CreateUser(user, model.password);
                 return Ok();
             }
             catch (AppException ex)
