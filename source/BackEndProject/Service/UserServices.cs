@@ -16,7 +16,7 @@ namespace Service
         IEnumerable<User> GetAll();
         User GetById(int id);
         User CreateUser(User user, string password);
-        Boss CreateEmployer(Boss user, string password);
+        Employer CreateEmployer(Employer user, string password);
         void Update(User user, string currentPassword, string password, string confirmPassword);
         string ForgotPassword(string username);
         void Delete(int id);
@@ -91,7 +91,7 @@ namespace Service
             return user;
         }
 
-        public Boss CreateEmployer(Boss user, string password)
+        public Employer CreateEmployer(Employer user, string password)
         {
             // validation
             if (string.IsNullOrWhiteSpace(password))
@@ -110,7 +110,7 @@ namespace Service
             user.created = DateTime.UtcNow;
             user.lastModified = DateTime.UtcNow;
 
-            _context.User.Add(user);
+            _context.Employer.Add(user);
             _context.SaveChanges();
 
             return user;

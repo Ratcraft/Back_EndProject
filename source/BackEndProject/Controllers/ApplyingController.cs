@@ -132,7 +132,7 @@ namespace Controllers
             if (applying == null)
                 return BadRequest("Applying does not exist! (id incorrect : idApplying)");
 
-            var bosses = await _context.Boss.ToListAsync();
+            var bosses = await _context.Employer.ToListAsync();
             if (bosses.Find(b => b.id == idBoss) == null)
                 return BadRequest("Boss does not exist! (id incorrect : idBoss)");
 

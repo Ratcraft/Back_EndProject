@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
-    public class Boss : User
+    public class Employer : User
     {
         [Key]
         public string Company {get; set;}

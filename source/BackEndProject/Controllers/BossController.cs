@@ -18,19 +18,19 @@ namespace Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Boss>>> GetBoss()
+        public async Task<ActionResult<IEnumerable<Employer>>> GetBoss()
         {
-            return await _context.Boss.ToListAsync();
+            return await _context.Employer.ToListAsync();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Boss>> PostBoss(Boss boss)
+        public async Task<ActionResult<Employer>> PostBoss(Employer boss)
         {
-            _context.Boss.Add(boss);
+            _context.Employer.Add(boss);
             await _context.SaveChangesAsync();
 
             int b = 0;
-            foreach (var people in _context.Boss){b++;}
+            foreach (var people in _context.Employer){b++;}
 
             return CreatedAtAction("PostBoss", new {id = b}, boss);
         }

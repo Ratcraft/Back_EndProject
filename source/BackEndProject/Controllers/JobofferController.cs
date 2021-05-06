@@ -43,9 +43,6 @@ namespace Controllers
             var job = await _context.Joboffer.SingleOrDefaultAsync(x => x.name == name);
             if(job == null){return NotFound();}
 
-            var boss = await _context.Boss.SingleOrDefaultAsync(x => x.userName == job.bossUsername);
-            //boss.offers.Remove(job.id);
-
             _context.Joboffer.Remove(job);
             await _context.SaveChangesAsync();
 

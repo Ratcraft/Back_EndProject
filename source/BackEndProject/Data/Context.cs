@@ -9,7 +9,7 @@ namespace Data
 
         public DbSet<User> User {get;set;}
 
-        public DbSet<Boss> Boss {get;set;}
+        public DbSet<Employer> Employer {get;set;}
 
         public DbSet<Joboffer> Joboffer {get;set;}
 
