@@ -15,5 +15,6 @@ namespace Data
 
         public DbSet<ApplyingJob> ApplyingJob { get; set; }
         public DbSet<Message> Message {get;set;}
+        public DbSet<Rating> Rating { get; set; }
     }
 }
