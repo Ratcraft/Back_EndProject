@@ -10,6 +10,7 @@ namespace Helpers
         {
             CreateMap<User,UserViewModel>();
             CreateMap<CreateUser,User>();
+            CreateMap<Message,MessageDTO>();
         }
     }
 }

@@ -7,19 +7,10 @@ namespace Models
     public class Message
     {
         [Key]
-        int id { get; set; }
-
-        [Required]
-        int idSender { get; set; }
-
-        [Required]
-
-        int idReceiver { get; set; }
-
-        [Required]
-        string description { get; set; }
-
-        [Required]
-        string message { get; set; }
+        public int id { get; set; }
+        public string mailSender { get; set; }
+        public string mailReceiver { get; set; }
+        public string subject { get; set; }
+        public string message { get; set; }
     }
 }

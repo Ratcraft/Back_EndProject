@@ -32,8 +32,6 @@ namespace Controllers
             int b = 0;
             foreach (var people in _context.Joboffer){b++;}
 
-            var boss = await _context.Boss.SingleOrDefaultAsync(x => x.userName == job.bossUsername);
-            //boss.offers.Add(job.id);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("PostJoboffer", new {id = b}, job);

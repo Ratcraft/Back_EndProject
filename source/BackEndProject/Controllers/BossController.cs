@@ -24,7 +24,7 @@ namespace Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> PostBoss(Boss boss)
+        public async Task<ActionResult<Boss>> PostBoss(Boss boss)
         {
             _context.Boss.Add(boss);
             await _context.SaveChangesAsync();

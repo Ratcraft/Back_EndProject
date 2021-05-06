@@ -18,5 +18,6 @@ namespace Models
         public string domain { get; set; }
         public DateTime created { get; set; }
         public DateTime lastModified { get; set; }
+        public bool isbanned {get;set;}
     }
 }

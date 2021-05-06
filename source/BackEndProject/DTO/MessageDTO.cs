@@ -6,12 +6,15 @@ namespace DTO
     public class MessageDTO
     {
         [Required]
-        string emailReceiver { get; set; }
+        public string mailSender { get; set; }
 
         [Required]
-        string subject { get; set; }
+        public string mailReceiver { get; set; }
 
         [Required]
-        string message { get; set; }
+        public string subject { get; set; }
+
+        [Required]
+        public string message { get; set; }
     }
 }
