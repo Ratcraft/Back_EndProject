@@ -9,6 +9,8 @@ namespace DTO
     public class AddRate
     {
         [Required]
+        public int Id { get; set; }
+        [Required]
         [Range(0, 5)]
         public int User_Rate { get; set; }
     }

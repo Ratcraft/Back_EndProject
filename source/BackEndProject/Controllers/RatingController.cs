@@ -50,6 +50,7 @@ namespace Controllers
 
             var rate = new Rating()
             {
+                Id = rateDTO.Id,
                 Rate = rateDTO.User_Rate
             };
             await _context.Rating.AddAsync(rate);
