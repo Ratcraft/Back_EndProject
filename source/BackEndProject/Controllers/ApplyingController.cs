@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Controllers
 {
-    [Authorize]
+    [Authorize("User,Employer,Admin")]
     [Route("[controller]")]
     [ApiController]
     public class ApplyingController : ControllerBase
@@ -78,7 +78,7 @@ namespace Controllers
             return Ok(applying_by_id);
         }
 
-        [Authorize(Roles = AccessLevel.Boss)]
+        [Authorize(Roles = AccessLevel.Employer)]
         [HttpPost("create")]
         public async Task<ActionResult<ApplyingJob>> PostApplying(ApplyingDTO applying_dto)
         {

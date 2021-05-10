@@ -52,5 +52,10 @@ namespace Controllersa
             return NoContent();
         } 
 
+        [HttpGet("raw_users")]
+        public async Task<ActionResult<IEnumerable<User>>> GetRawUsers()
+        {
+            return await _context.User.ToListAsync();
+        }
     }
 }

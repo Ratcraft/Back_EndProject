@@ -10,6 +10,7 @@ using DTO;
 
 namespace Controllers
 {
+    [Authorize("User,Employer,Admin")]
     [ApiController]
     [Route("[controller]")]
     public class MessageController : ControllerBase
