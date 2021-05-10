@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Controllersa
 {
-    [Authorize]
+    [Authorize(Roles = AccessLevel.Admin)]
     [ApiController]
     [Route("[controller]")]
     public class AdminController : ControllerBase
@@ -24,17 +24,30 @@ namespace Controllersa
             _mapper = mapper;
         }
 
-        [Authorize(Roles = AccessLevel.Admin)]
         [HttpPut("ban")]
         public async Task<IActionResult> Ban(int id)
         {
             var user = await _context.User.ToListAsync();
             User member = user.Find(a => a.id == id);
-
+            if(member == null){return NotFound();}
             member.isbanned = true;
             await _context.SaveChangesAsync();
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(member).State = EntityState.Modified;
+
+            return NoContent();
+        } 
+
+        [HttpPut("un_ban")]
+        public async Task<IActionResult> un_Ban(int id)
+        {
+            var user = await _context.User.ToListAsync();
+            User member = user.Find(a => a.id == id);
+            if(member == null){return NotFound();}
+            member.isbanned = false;
+            await _context.SaveChangesAsync();
+
+            _context.Entry(member).State = EntityState.Modified;
 
             return NoContent();
         } 

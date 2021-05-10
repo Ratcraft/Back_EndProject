@@ -20,7 +20,7 @@ namespace Controllers
     {
         private IUserService _userService;
         private IMapper _mapper;
-        public IConfiguration Configuration;
+        public IConfiguration _configuration;
         private readonly Context _context;
         private readonly IEmailService _emailService;
 
@@ -34,11 +34,11 @@ namespace Controllers
             _context = context;
             _userService = userService;
             _mapper = mapper;
-           Configuration = configuration;
+           _configuration = configuration;
            _emailService = emailService;
         }
 
-        [Authorize(Roles = AccessLevel.Boss)]
+        [Authorize(Roles = AccessLevel.Boss )]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employer>>> GetBoss()
         {

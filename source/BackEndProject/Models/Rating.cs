@@ -9,9 +9,9 @@ namespace Models
     public class Rating
     {
         [Key]
-        public int Id { get; set; }
-        [Required]
-        [Range(0,5)]
+        public int id { get; set; }
         public int Rate { get; set; }
+        public int jobId { get; set; }
+        public string comment{ get; set; }
     }
 }

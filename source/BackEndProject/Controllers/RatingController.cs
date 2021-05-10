@@ -50,12 +50,13 @@ namespace Controllers
 
             var rate = new Rating()
             {
-                Id = rateDTO.Id,
-                Rate = rateDTO.User_Rate
+                Rate = rateDTO.User_Rate,
+                jobId = rateDTO.JobID,
+                comment = rateDTO.comment
             };
             await _context.Rating.AddAsync(rate);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetRates", new { id = rate.Id }, rateDTO);
+            return CreatedAtAction("GetRates", new { id = rate.id }, rateDTO);
         }
     }
 }

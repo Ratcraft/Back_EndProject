@@ -103,7 +103,12 @@ namespace Controllers
         public IActionResult GetUser()
         {
             var user = _context.User.ToList();
-            var model = _mapper.Map<IList<UserViewModel>>(user);
+            List<User> user_unbanned = new List<User>();
+            foreach (var item in user)
+            {
+                if(!item.isbanned){user_unbanned.Add(item);}
+            }
+            var model = _mapper.Map<IList<UserViewModel>>(user_unbanned);
             return Ok(model);
         }
 
