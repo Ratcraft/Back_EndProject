@@ -4,11 +4,9 @@ using Data;
 using Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Controllers
 {
-    [Authorize("Employer,Admin")]
     [ApiController]
     [Route("[controller]")]
     public class JobofferController : ControllerBase

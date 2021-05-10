@@ -106,7 +106,7 @@ namespace Service
 
             //Saving hashed password into Database table
             user.password = computeHash(password);
-            user.levelAccess = AccessLevel.Employer;
+            user.levelAccess = AccessLevel.Boss;
             user.created = DateTime.UtcNow;
             user.lastModified = DateTime.UtcNow;
 

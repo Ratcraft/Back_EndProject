@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Data;
 using DTO;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -13,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace Controllers
 {
-    [Authorize("User,Employer,Admin")]
     [ApiController]
     [Route("[controller]")]
     public class RatingController : ControllerBase

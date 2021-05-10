@@ -4,7 +4,7 @@ namespace DTO
     {
         public const string Admin = "Admin";
         public const string User = "User";
-        public const string Employer = "Employer";
+        public const string Boss = "Boss";
         public const string Ban = "Ban";
     }
 }

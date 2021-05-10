@@ -13,7 +13,7 @@ using Helpers;
 
 namespace Controllers
 {
-    [Authorize("Employer,Admin")]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class EmployerController : ControllerBase
@@ -38,7 +38,7 @@ namespace Controllers
            _emailService = emailService;
         }
 
-        [Authorize(Roles = "Employer,Admin")]
+        [Authorize(Roles = AccessLevel.Boss )]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employer>>> GetBoss()
         {

@@ -19,7 +19,7 @@ using Service;
 
 namespace Controllers
 {
-    [Authorize("User,Employer,Admin")]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
