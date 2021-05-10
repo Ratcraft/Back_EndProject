@@ -18,6 +18,8 @@ namespace Models
         public string domain { get; set; }
         public DateTime created { get; set; }
         public DateTime lastModified { get; set; }
-        public bool isbanned {get;set;}
+        public string user_or_employer {get;set;}
+        public string company {get; set;}
+        public string job {get; set;}
     }
 }

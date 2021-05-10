@@ -30,7 +30,7 @@ namespace Controllersa
             var user = await _context.User.ToListAsync();
             User member = user.Find(a => a.id == id);
             if(member == null){return NotFound();}
-            member.isbanned = true;
+            member.levelAccess = AccessLevel.Ban;
             await _context.SaveChangesAsync();
 
             _context.Entry(member).State = EntityState.Modified;
@@ -44,13 +44,19 @@ namespace Controllersa
             var user = await _context.User.ToListAsync();
             User member = user.Find(a => a.id == id);
             if(member == null){return NotFound();}
-            member.isbanned = false;
+            member.levelAccess = AccessLevel.Ban;
             await _context.SaveChangesAsync();
 
             _context.Entry(member).State = EntityState.Modified;
 
             return NoContent();
         } 
+
+        [HttpGet("raw_users")]
+        public async Task<ActionResult<IEnumerable<User>>> GetRawUsers()
+        {
+            return await _context.User.ToListAsync();
+        }
 
     }
 }

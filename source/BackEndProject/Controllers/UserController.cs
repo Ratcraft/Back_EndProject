@@ -106,7 +106,7 @@ namespace Controllers
             List<User> user_unbanned = new List<User>();
             foreach (var item in user)
             {
-                if(!item.isbanned){user_unbanned.Add(item);}
+                if(item.levelAccess == AccessLevel.Ban){user_unbanned.Add(item);}
             }
             var model = _mapper.Map<IList<UserViewModel>>(user_unbanned);
             return Ok(model);

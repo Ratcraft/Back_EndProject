@@ -20,5 +20,11 @@ namespace DTO
         public string password {get; set; }
         [Required]
         public string domain { get; set;}
+        [Required]
+        public string job { get; set;}
+        [Required]
+        public string company { get; set;}
+        [Required]
+        public string user_or_employer { get; set;}
     }
 }

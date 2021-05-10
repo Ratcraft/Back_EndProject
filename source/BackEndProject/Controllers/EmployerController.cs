@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data;
 using Microsoft.AspNetCore.Authorization;
@@ -38,7 +38,7 @@ namespace Controllers
            _emailService = emailService;
         }
 
-        [Authorize(Roles = AccessLevel.Boss )]
+        [Authorize(Roles = AccessLevel.Employer)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employer>>> GetBoss()
         {
@@ -65,4 +65,4 @@ namespace Controllers
             }
         }
     }
-}
+}*/

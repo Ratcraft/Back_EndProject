@@ -16,7 +16,6 @@ namespace Service
         IEnumerable<User> GetAll();
         User GetById(int id);
         User CreateUser(User user, string password);
-        Employer CreateEmployer(Employer user, string password);
         void Update(User user, string currentPassword, string password, string confirmPassword);
         string ForgotPassword(string username);
         void Delete(int id);
@@ -81,7 +80,7 @@ namespace Service
 
             //Saving hashed password into Database table
             user.password = computeHash(password);
-            user.levelAccess = AccessLevel.User;
+            user.levelAccess = user.user_or_employer;
             user.created = DateTime.UtcNow;
             user.lastModified = DateTime.UtcNow;
 
@@ -91,7 +90,7 @@ namespace Service
             return user;
         }
 
-        public Employer CreateEmployer(Employer user, string password)
+        /*public Employer CreateEmployer(Employer user, string password)
         {
             // validation
             if (string.IsNullOrWhiteSpace(password))
@@ -106,7 +105,7 @@ namespace Service
 
             //Saving hashed password into Database table
             user.password = computeHash(password);
-            user.levelAccess = AccessLevel.Boss;
+            user.levelAccess = AccessLevel.Employer;
             user.created = DateTime.UtcNow;
             user.lastModified = DateTime.UtcNow;
 
@@ -114,7 +113,7 @@ namespace Service
             _context.SaveChanges();
 
             return user;
-        }
+        }*/
 
         public void Update(User userParam, string currentPassword = null, string password = null, string confirmPassword = null)
         {
