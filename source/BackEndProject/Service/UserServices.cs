@@ -99,7 +99,7 @@ namespace Service
                 throw new AppException("Password is required");
             }
 
-            if (_context.User.Any(x => x.userName == user.userName))
+            if (_context.Employer.Any(x => x.userName == user.userName))
             {
                 throw new AppException("Username \"" + user.userName + "\" is already taken");
             }
