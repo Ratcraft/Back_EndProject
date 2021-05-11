@@ -9,9 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class RatingController : ControllerBase
@@ -26,6 +28,7 @@ namespace Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = AccessLevel.Employer)]
         [HttpGet]
         public IActionResult GetRating()
         {
@@ -34,14 +37,16 @@ namespace Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = AccessLevel.User)]
         [HttpGet("my_rating")]
-        public IActionResult GetRatesById(int id)
+        public IActionResult Get_myRates(int id)
         {
             var user = _userService.GetById(id);
             var model = _mapper.Map<Rating>(user);
             return Ok(model);
         }
 
+        [Authorize(Roles = AccessLevel.Employer)]
         [HttpPost]
         public async Task<ActionResult<AddRate>> Add_Rates(AddRate rateDTO)
         {

@@ -8,5 +8,7 @@ namespace DTO
         public string BirthDate {get; set; } 
         public string EmailAdress {get; set; }
         public string Domain { get; set; }
+        public string Job {get;set;}
+        public string Company{get;set;}
     }
 }

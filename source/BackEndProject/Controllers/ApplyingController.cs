@@ -8,6 +8,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using DTO;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Controllers
@@ -18,67 +19,87 @@ namespace Controllers
     public class ApplyingController : ControllerBase
     {
         private readonly Context _context;
-        public ApplyingController(Context context)
+        private readonly IMapper _mapper;
+        public ApplyingController(Context context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = AccessLevel.Employer)]
         [HttpGet("get")]
         public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying()
         {
             return await _context.ApplyingJob.ToListAsync();
         }
 
-        [AllowAnonymous]
-        [HttpGet("get/{id}")]
-        public async Task<ActionResult<ApplyingJob>> GetApplying_byId(int id)
+        [Authorize(Roles = AccessLevel.User)]
+        [HttpGet("my_applying")]
+        public IActionResult GetApplying_my_applying(int id)
         {
-            var applying = await _context.ApplyingJob.ToListAsync<ApplyingJob>();
+            List<ApplyingJob> applyingJobs = _context.ApplyingJob.ToList();
+            List<Joboffer> joboffers = _context.Joboffer.ToList();
 
-            var applying_by_id = applying.Find(x => x.id == id);
-
-            if (applying_by_id == null)
+            List<Joboffer> result = new List<Joboffer>();
+            foreach (var item in applyingJobs)
             {
-                return NotFound();
+                if(item.idApplicant == id){
+                    foreach(var job in joboffers)
+                    {
+                        if(job.id == item.idJobOffer){
+                            result.Add(job);
+                        }
+                    }
+                }
             }
-
-            return Ok(applying_by_id);
+            return Ok(result);
         }
 
-        [AllowAnonymous]
-        [HttpGet("get/idApplicant/{idApplicant}")]
-        public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying_byIdApplicant(int idApplicant)
+        [Authorize(Roles = AccessLevel.User)]
+        [HttpGet("my_hired_job")]
+        public IActionResult GetApplying_hired_job(int id)
         {
-            var applying = await _context.ApplyingJob.ToListAsync<ApplyingJob>();//.Where(x => x.idApplicant == idApplicant);
+            List<ApplyingJob> applyingJobs = _context.ApplyingJob.ToList();
+            List<Joboffer> joboffers = _context.Joboffer.ToList();
 
-            var applying_by_id = applying.Where(x => x.idApplicant == idApplicant);
-
-            if (applying_by_id == null)
+            List<Joboffer> result = new List<Joboffer>();
+            foreach (var item in applyingJobs)
             {
-                return NotFound();
+                if(item.idApplicant == id){
+                    if(item.hired)
+                    {
+                        foreach(var job in joboffers)
+                        {
+                            if(job.id == item.idJobOffer){result.Add(job);}
+                        }
+                    }
+                    
+                }
             }
-
-            return Ok(applying_by_id);
-        }
-
-        [AllowAnonymous]
-        [HttpGet("get/idJobOffer/{idJobOffer}")]
-        public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying_byIdJobOffer(int idJobOffer)
-        {
-            var applying = await _context.ApplyingJob.ToListAsync<ApplyingJob>();
-
-            var applying_by_id = applying.Where(x => x.idApplicant == idJobOffer);
-
-            if (applying_by_id == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(applying_by_id);
+            return Ok(result);
         }
 
         [Authorize(Roles = AccessLevel.Employer)]
+        [HttpGet("applying_user")]
+        public IActionResult GetApplying_applying_user(int idJobOffer)
+        {
+            List<ApplyingJob> applyingJobs = _context.ApplyingJob.ToList();
+            List<User> users = _context.User.ToList();
+
+            List<User> result = new List<User>();
+            foreach (var item in applyingJobs)
+            {
+                if(item.idJobOffer == idJobOffer){
+                    foreach(var us in users)
+                    {
+                        if(us.id == item.idApplicant){result.Add(us);}
+                    }
+                }
+            }
+            return Ok(result);
+        }
+
+        [Authorize(Roles = AccessLevel.User)]
         [HttpPost("create")]
         public async Task<ActionResult<ApplyingJob>> PostApplying(ApplyingDTO applying_dto)
         {
@@ -122,9 +143,9 @@ namespace Controllers
             return NoContent();
         }
         */
-        
+        [Authorize(Roles = AccessLevel.Employer)]
         [HttpPut("hired")]
-        public async Task<IActionResult> SetHiredApplying(int idBoss, int idApplying, bool hired)
+        public async Task<IActionResult> SetHiredApplying(int idApplying, bool hired)
         {
             var applyings = await _context.ApplyingJob.ToListAsync();
             ApplyingJob applying = applyings.Find(a => a.id == idApplying);
@@ -132,13 +153,12 @@ namespace Controllers
             if (applying == null)
                 return BadRequest("Applying does not exist! (id incorrect : idApplying)");
 
-            var bosses = await _context.Employer.ToListAsync();
-            if (bosses.Find(b => b.id == idBoss) == null)
-                return BadRequest("Boss does not exist! (id incorrect : idBoss)");
-
+            _context.ApplyingJob.SingleOrDefault(x => x.id == idApplying).hired = hired;
             _context.Entry(applying).State = EntityState.Modified;
 
-            return CreatedAtAction("PutApplying", idApplying, $"set hired on \"{hired}\"");
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         [HttpDelete("delete/{id}")]
