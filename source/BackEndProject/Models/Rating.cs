@@ -10,6 +10,7 @@ namespace Models
     {
         [Key]
         public int id { get; set; }
+        public string usermail {get;set;}
         public int Rate { get; set; }
         public int jobId { get; set; }
         public string comment{ get; set; }

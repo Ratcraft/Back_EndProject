@@ -11,6 +11,9 @@ namespace Helpers
             CreateMap<User,UserViewModel>();
             CreateMap<CreateUser,User>();
             CreateMap<Message,MessageDTO>();
+            CreateMap<AddRate,Rating>();
+            CreateMap<UpdateModel,User>();
+            CreateMap<Rating,RateModelView>();
         }
     }
 }

@@ -106,25 +106,39 @@ namespace Controllers
             List<User> user_unbanned = new List<User>();
             foreach (var item in user)
             {
-                if(item.levelAccess == AccessLevel.Ban){user_unbanned.Add(item);}
+                if(item.levelAccess != AccessLevel.Ban){user_unbanned.Add(item);}
             }
             var model = _mapper.Map<IList<UserViewModel>>(user_unbanned);
             return Ok(model);
         }
 
-        [HttpPut("modify")]
-        public async Task<IActionResult> Modify_User(int id, User profile)
+        [HttpPut("update")]
+        public IActionResult Update(int id, UpdateModel model)
         {
-            if(id != profile.id){return BadRequest();}
-            _context.Entry(profile).State = EntityState.Modified;
-            try{await _context.SaveChangesAsync();}
-            catch(DbUpdateConcurrencyException)
+            //Finding who is logged in
+            int logged_in_user = int.Parse(User.Identity.Name);
+
+            // map model to entity and set id
+            var user = _mapper.Map<User>(model);
+            user.id = id;
+
+            //Rejecting access if the logged in user is not same as the user updating information
+            if(logged_in_user != id)
             {
-                if(_context.User.FirstOrDefaultAsync(x => x.id == id) == null){return NotFound();}
-                else{throw;}
+                return BadRequest(new { message = "Access Denied" });
             }
 
-            return NoContent();
+            try
+            {
+                // update user 
+                _userService.Update(user, model.CurrentPassword, model.NewPassword, model.ConfirmNewPassword);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [AllowAnonymous]

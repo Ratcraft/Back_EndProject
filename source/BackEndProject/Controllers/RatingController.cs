@@ -27,12 +27,14 @@ namespace Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rating>>> GetRates()
+        public IActionResult GetRating()
         {
-            return await _context.Rating.ToListAsync();
+            var user = _context.Rating.ToList();
+            var model = _mapper.Map<IList<RateModelView>>(user);
+            return Ok(model);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("my_rating")]
         public IActionResult GetRatesById(int id)
         {
             var user = _userService.GetById(id);
@@ -50,8 +52,8 @@ namespace Controllers
 
             var rate = new Rating()
             {
-                Rate = rateDTO.User_Rate,
-                jobId = rateDTO.JobID,
+                Rate = rateDTO.Rate,
+                jobId = rateDTO.jobId,
                 comment = rateDTO.comment
             };
             await _context.Rating.AddAsync(rate);

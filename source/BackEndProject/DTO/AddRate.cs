@@ -9,10 +9,12 @@ namespace DTO
     public class AddRate
     {
         [Required]
-        [Range(0, 5)]
-        public int User_Rate { get; set; }
+        public string usermail {get;set;}
         [Required]
-        public int JobID {get;set;}
-        public string comment {get;set;}
+        [Range(0, 20)]
+        public int Rate { get; set; }
+        [Required]
+        public int jobId { get; set; }
+        public string comment{ get; set; }
     }
 }
