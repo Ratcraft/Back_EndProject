@@ -28,7 +28,7 @@ namespace Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = AccessLevel.Employer)]
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpGet]
         public IActionResult GetRating()
         {
@@ -46,7 +46,7 @@ namespace Controllers
             return Ok(model);
         }
 
-        [Authorize(Roles = AccessLevel.Employer)]
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer)]
         [HttpPost]
         public async Task<ActionResult<AddRate>> Add_Rates(AddRate rateDTO)
         {

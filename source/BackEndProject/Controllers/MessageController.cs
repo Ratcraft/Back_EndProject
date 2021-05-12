@@ -7,9 +7,11 @@ using Models;
 using AutoMapper;
 using System.Linq;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class MessageController : ControllerBase
@@ -22,6 +24,7 @@ namespace Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpGet]
         public IActionResult GetMessage()
         {
@@ -30,6 +33,7 @@ namespace Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpPost("send_message")]
         public async Task<ActionResult<Message>> PostMessage(Message msg)
         {
@@ -42,6 +46,7 @@ namespace Controllers
             return CreatedAtAction("PostMessage", new {id = b}, msg);
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpGet("my_messages")]
         public IActionResult Get_myMessage(string mail){
             var msg = _context.Message.ToList();
@@ -54,6 +59,7 @@ namespace Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpGet("my_sent_messages")]
         public IActionResult Get_sentMessage(string mail){
             var msg = _context.Message.ToList();
@@ -66,6 +72,7 @@ namespace Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpGet("my_received_message")]
         public IActionResult Get_receivedMessage(string mail){
             var msg = _context.Message.ToList();

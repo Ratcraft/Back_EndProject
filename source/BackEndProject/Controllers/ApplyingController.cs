@@ -26,14 +26,14 @@ namespace Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = AccessLevel.Employer)]
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer)]
         [HttpGet("get")]
         public async Task<ActionResult<IEnumerable<ApplyingJob>>> GetApplying()
         {
             return await _context.ApplyingJob.ToListAsync();
         }
 
-        [Authorize(Roles = AccessLevel.User)]
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.User)]
         [HttpGet("my_applying")]
         public IActionResult GetApplying_my_applying(int id)
         {
@@ -55,7 +55,7 @@ namespace Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = AccessLevel.User)]
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.User)]
         [HttpGet("my_hired_job")]
         public IActionResult GetApplying_hired_job(int id)
         {
@@ -79,7 +79,7 @@ namespace Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = AccessLevel.Employer)]
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer)]
         [HttpGet("applying_user")]
         public IActionResult GetApplying_applying_user(int idJobOffer)
         {
@@ -143,6 +143,7 @@ namespace Controllers
             return NoContent();
         }
         */
+
         [Authorize(Roles = AccessLevel.Employer)]
         [HttpPut("hired")]
         public async Task<IActionResult> SetHiredApplying(int idApplying, bool hired)
@@ -161,6 +162,7 @@ namespace Controllers
             return Ok();
         }
 
+        [Authorize(Roles = AccessLevel.User)]
         [HttpDelete("delete/{id}")]
         public async Task<ActionResult<ApplyingJob>> DeleteApplying (int id)
         {

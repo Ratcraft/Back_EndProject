@@ -99,6 +99,7 @@ namespace Controllers
             }
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpGet]
         public IActionResult GetUser()
         {
@@ -112,6 +113,7 @@ namespace Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpPut("update")]
         public IActionResult Update(int id, UpdateModel model)
         {
@@ -148,7 +150,7 @@ namespace Controllers
             return Ok(_userService.ForgotPassword(model.Username));
         }
 
-        [Authorize(Roles = AccessLevel.Admin)]
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpPost("email")]
         public async Task<IActionResult> SendEmail(SendEmailDTO model)
         {

@@ -52,6 +52,18 @@ namespace Controllersa
             return NoContent();
         } 
 
+        [HttpDelete("hard_ban")]
+        public async Task<ActionResult<User>> hard_Ban(int id)
+        {
+            var user = await _context.User.SingleOrDefaultAsync(x => x.id == id);
+            if(user == null){return NotFound();}
+
+            _context.User.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
         [HttpGet("raw_users")]
         public async Task<ActionResult<IEnumerable<User>>> GetRawUsers()
         {

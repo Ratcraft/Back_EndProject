@@ -4,9 +4,12 @@ using Data;
 using Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using DTO;
 
 namespace Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class JobofferController : ControllerBase
@@ -17,12 +20,14 @@ namespace Controllers
             _context = context;
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Joboffer>>> GetJoboffer()
         {
             return await _context.Joboffer.ToListAsync();
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer)]
         [HttpPost("create")]
         public async Task<ActionResult<User>> PostJoboffer(Joboffer job)
         {
@@ -37,6 +42,7 @@ namespace Controllers
             return CreatedAtAction("PostJoboffer", new {id = b}, job);
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer)]
         [HttpDelete("removeoffer")]
         public async Task<ActionResult<Joboffer>> Delete_joboffer(string name)
         {
@@ -49,6 +55,7 @@ namespace Controllers
             return job;
         }
 
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer)]
         [HttpPut("modify")]
         public async Task<IActionResult> Modify_Offer(int id, Joboffer joboffer)
         {
