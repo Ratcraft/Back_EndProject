@@ -24,7 +24,7 @@ namespace Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
+        [Authorize(Roles = AccessLevel.Admin)]
         [HttpGet]
         public IActionResult GetMessage()
         {

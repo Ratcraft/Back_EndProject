@@ -37,7 +37,7 @@ namespace Controllers
             return Ok(model);
         }
 
-        [Authorize(Roles = AccessLevel.User)]
+        [Authorize(Roles = AccessLevel.Admin + "," + AccessLevel.Employer + "," + AccessLevel.User)]
         [HttpGet("my_rating")]
         public IActionResult Get_myRates(int id)
         {

@@ -10,13 +10,9 @@ namespace Models
     {
         [Key]
         public int id { get; set; }
-
         public int idApplicant { get; set; }
-
         public int idJobOffer { get; set; }
-
         public DateTime applyingDate { get; set; }
-
         public bool hired { get; set; }
     }
 }
